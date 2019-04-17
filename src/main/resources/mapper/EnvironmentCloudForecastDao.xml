@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.EnvironmentCloudForecastDao">
+	<resultMap id="Forecast" type="com.yingjun.ssm.entity.EnvironmentCloudForecast">
+		<result column="FID" property="fid"></result>
+		<result column="CITYNAME" property="cityName"></result>
+		<result column="REQUESTCODE" property="requestCode"></result>
+		<result column="CITYCODE" property="cityId"></result>
+		<result column="UVTEXT" property="suggestion.uv.txt"></result>
+		<result column="UVBRF" property="suggestion.uv.brf"></result>
+		<result column="CWTEXT" property="suggestion.cw.txt"></result>
+		<result column="CWBRF" property="suggestion.cw.brf"></result>
+		<result column="DRSTEXT" property="suggestion.drs.txt"></result>
+		<result column="DRSBRF" property="suggestion.drs.brf"></result>
+		<result column="TRAVTEXT" property="suggestion.trav.txt"></result>
+		<result column="TRAVBRF" property="suggestion.trav.brf"></result>
+		<result column="AIRTEXT" property="suggestion.air.txt"></result>
+		<result column="AIRBRF" property="suggestion.air.brf"></result>
+		<result column="COMFTEXT" property="suggestion.comf.txt"></result>
+		<result column="COMFBRF" property="suggestion.comf.brf"></result>
+		<result column="SPORTTEXT" property="suggestion.sport.txt"></result>
+		<result column="SPORTBRF" property="suggestion.sport.brf"></result>
+		<result column="FLUTEXT" property="suggestion.flu.txt"></result>
+		<result column="FLUBRF" property="suggestion.flu.brf"></result>
+
+		<collection property="forecasts" ofType="com.yingjun.ssm.entity.ForecastEntity">
+			<result column="POP" property="pop"></result>
+			<result column="DATE0" property="date"></result>
+			<result column="UV" property="uv"></result>
+			<result column="VIS" property="vis"></result>
+			<result column="HUM" property="hum"></result>
+			<result column="PRES" property="pres"></result>
+			<result column="PCPN" property="pcpn"></result>
+			<result column="TMPMIN" property="tmp.min"></result>
+			<result column="TMPMAX" property="tmp.max"></result>
+			<result column="COND_D" property="cond.cond_d"></result>
+			<result column="COND_N" property="cond.cond_n"></result>
+			<result column="WINDSC" property="wind.sc"></result>
+			<result column="WINDSPD" property="wind.spd"></result>
+			<result column="WINDDEG" property="wind.deg"></result>
+			<result column="WINDDIR" property="wind.dir"></result>
+			<result column="SS" property="astro.ss"></result>
+			<result column="MR" property="astro.mr"></result>
+			<result column="MS" property="astro.ms"></result>
+			<result column="SR" property="astro.sr"></result>
+		</collection>
+
+		
+	</resultMap>
+
+	<resultMap id="forecasts" type="com.yingjun.ssm.entity.ForecastEntity">
+		<result column="POP" property="pop"></result>
+		<result column="DATE0" property="date"></result>
+		<result column="UV" property="uv"></result>
+		<result column="VIS" property="vis"></result>
+		<result column="HUM" property="hum"></result>
+		<result column="PRES" property="pres"></result>
+		<result column="PCPN" property="pcpn"></result>
+		<result column="TMPMIN" property="tmp.min"></result>
+		<result column="TMPMAX" property="tmp.max"></result>
+		<result column="COND_D" property="cond.cond_d"></result>
+		<result column="COND_N" property="cond.cond_n"></result>
+		<result column="WINDSC" property="wind.sc"></result>
+		<result column="WINDSPD" property="wind.spd"></result>
+		<result column="WINDDEG" property="wind.deg"></result>
+		<result column="WINDDIR" property="wind.dir"></result>
+		<result column="SS" property="astro.ss"></result>
+		<result column="MR" property="astro.mr"></result>
+		<result column="MS" property="astro.ms"></result>
+		<result column="SR" property="astro.sr"></result>
+	</resultMap>
+	<!--<insert id="insertForecast" parameterType="com.yingjun.ssm.entity.EnvironmentCloudForecast">-->
+	<insert id="insertForecast" parameterType="com.yingjun.ssm.entity.EnvironmentCloudForecast">
+			INSERT INTO forecast (CITYCODE,REQUESTCODE,CITYNAME,UVTEXT,UVBRF,CWTEXT,CWBRF,DRSTEXT,DRSBRF,TRAVTEXT,TRAVBRF,AIRTEXT,AIRBRF,COMFTEXT,COMFBRF,SPORTTEXT,SPORTBRF,FLUTEXT,FLUBRF,UPDATETIME)
+	VALUES (#{cityId},#{requestCode},#{cityName},#{suggestion.uv.txt},#{suggestion.uv.brf},
+	#{suggestion.cw.txt},#{suggestion.cw.brf},#{suggestion.drs.txt},#{suggestion.drs.brf},#{suggestion.trav.txt},#{suggestion.trav.brf},
+	#{suggestion.air.txt},#{suggestion.air.brf},#{suggestion.comf.txt},#{suggestion.comf.brf},#{suggestion.sport.txt},#{suggestion.sport.brf},
+	#{suggestion.flu.txt},#{suggestion.flu.brf},#{updatetime})
+	</insert>
+
+	<insert id="insertForecasts" parameterType="com.yingjun.ssm.entity.EnvironmentCloudForecast">
+		INSERT INTO forecastentity (FID,POP,DATE0,UV,VIS,HUM,PRES,PCPN,TMPMIN,TMPMAX,COND_D,COND_N,WINDSC,WINDSPD,WINDDEG,WINDDIR,SS,MR,MS,SR)
+		VALUES
+		<foreach collection="forecasts"  item="forecast" open="(" close=")" separator="),(">
+			${fid},${forecast.pop},"${forecast.date}",${forecast.uv},${forecast.vis},${forecast.hum},${forecast.pres},${forecast.pcpn},${forecast.tmp.min},${forecast.tmp.max},"${forecast.cond.cond_d}",
+			"${forecast.cond.cond_n}","${forecast.wind.sc}",${forecast.wind.spd},${forecast.wind.deg},"${forecast.wind.dir}","${forecast.astro.ss}","${forecast.astro.mr}","${forecast.astro.ms}","${forecast.astro.sr}"
+		</foreach>
+
+	</insert>
+
+	<select id="getfid"  resultType="int">
+			SELECT MAX(FID) FROM forecast;
+	</select>
+
+	<select id="findForecastByCityDode" parameterType="string" resultMap="Forecast">
+		SELECT * FROM forecast f  WHERE CITYCODE = #{cityId}
+	</select>
+
+	<select id="findForecastsByCityDode" parameterType="int" resultMap="forecasts">
+		SELECT * from forecastentity WHERE FID = #{fid}
+	</select>
+</mapper>

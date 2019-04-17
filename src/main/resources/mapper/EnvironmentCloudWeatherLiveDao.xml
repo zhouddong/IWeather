@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.EnvironmentCloudWeatherLiveDao">
+	<resultMap id="WeatherLive" type="com.yingjun.ssm.entity.EnvironmentCloudWeatherLive">
+		<result column="UPDATETIME" property="updateTime"></result>
+		<result column="CITYCODE" property="cityId"></result>
+		<result column="AIRPRESSURE" property="airPressure"></result>
+		<result column="RAIN" property="rain"></result>
+		<result column="RDESC" property="requestDesc"></result>
+		<result column="WINDPOWER" property="windPower"></result>
+		<result column="FEELST" property="feelsTemperature"></result>
+		<result column="TEMPERATURE" property="temperature"></result>
+		<result column="WINDDIRECT" property="windDirect"></result>
+		<result column="HUMIDITY" property="humidity"></result>
+		<result column="WINDSPEED" property="windSpeed"></result>
+		<result column="PHENOMENA" property="phenomena"></result>
+	</resultMap>
+
+	<insert id="insertWeatherLive" parameterType="com.yingjun.ssm.entity.EnvironmentCloudWeatherLive">
+		INSERT INTO weatherlive (UPDATETIME ,
+									CITYCODE,
+									AIRPRESSURE,
+									RAIN,
+									RDESC,
+									WINDPOWER,
+									FEELST,
+									TEMPERATURE,
+									WINDDIRECT,
+									HUMIDITY,
+									WINDSPEED,
+									PHENOMENA)
+		VALUES (#{updateTime},#{cityId},#{airPressure},#{rain},#{requestDesc},
+				#{windPower},#{feelsTemperature},#{temperature},#{windDirect},#{humidity},#{windSpeed},#{phenomena})
+	</insert>
+
+	<select id="findWeatherLiveByCityDode" parameterType="string" resultMap="WeatherLive">
+		SELECT * FROM weatherlive
+		WHERE CITYCODE = #{citycode}
+	</select>
+
+</mapper>
